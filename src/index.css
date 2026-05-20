@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased min-h-screen overflow-x-hidden;
+  }
+}
+
+/* Replace the existing watermark and keyframes in index.css with this: */
+
+.bg-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 60vw;
+  max-width: 650px;
+  aspect-ratio: 1/1;
+  background-image: url('/comp-logo.PNG'); 
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Increased opacity for better visibility */
+  opacity: 0.12; 
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 30px rgba(56,189,248,0.4));
+  /* Added the spin animation */
+  animation: spin-center 40s linear infinite;
+}
+
+@keyframes spin-center {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.glass-panel {
+  @apply bg-card/70 backdrop-blur-2xl border border-border/50 shadow-2xl;
+  position: relative;
+  z-index: 10;
+}
