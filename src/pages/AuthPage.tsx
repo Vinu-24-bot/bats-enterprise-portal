@@ -3,38 +3,43 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Lock, ArrowLeft, User, KeyRound, AlertCircle } from "lucide-react";
 
+// Explicitly defining the allowed keys for TypeScript
+type ProductKey = "geniushub" | "forgepro" | "combo";
+
 export default function AuthPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  // Get the product they clicked from the URL (defaults to combo if missing)
-  const product = searchParams.get("product") || "combo";
+  
+  // Safely extract and type the product from the URL
+  const rawProduct = searchParams.get("product") || "combo";
+  const product: ProductKey = (rawProduct === "geniushub" || rawProduct === "forgepro") ? rawProduct : "combo";
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // 🎨 DYNAMIC BRANDING: Changes UI colors based on selection
-  const config = {
+  // 🎨 DYNAMIC BRANDING: Separated dictionary for strict TypeScript compliance
+  const productConfigs = {
     geniushub: { name: "Genius Hub", color: "text-primary", border: "focus:border-primary", bg: "bg-primary", hover: "hover:bg-primary/90" },
     forgepro: { name: "Forge Pro", color: "text-accent", border: "focus:border-accent", bg: "bg-accent", hover: "hover:bg-accent/90" },
     combo: { name: "Enterprise Suite", color: "text-combo", border: "focus:border-combo", bg: "bg-combo", hover: "hover:bg-combo/90" }
-  }[product as keyof typeof config] || config.combo;
+  };
+
+  const config = productConfigs[product];
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    // 🔐 SECURE ROUTING LOGIC: Distinct passwords for distinct modules
     const isValid =
       (product === "geniushub" && username === "admin" && password === "ats2026") ||
       (product === "forgepro" && username === "admin" && password === "forgepro2026") ||
       (product === "combo" && username === "admin" && password === "suite2026");
 
     if (isValid) {
-      // Store their session and which product they bought!
       sessionStorage.setItem("master_auth", "true");
       sessionStorage.setItem("active_product", product);
-      navigate("/dashboard"); // We will build this in Step 4!
+      navigate("/dashboard");
     } else {
       setError("Invalid credentials for this specific module.");
     }

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FileText, Video, ArrowRight, Layers } from "lucide-react";
 
@@ -9,18 +9,19 @@ export default function ProductsPortal() {
     navigate(`/auth?product=${product}`);
   };
 
-  const containerVariants = {
+  // 🛡️ Added strict TS Variant Types
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 15 } }
+    visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 80, damping: 15 } }
   };
 
-  const iconVariants = {
-    hover: { y: -5, scale: 1.1, transition: { type: "spring", stiffness: 300 } }
+  const iconVariants: Variants = {
+    hover: { y: -5, scale: 1.1, transition: { type: "spring" as const, stiffness: 300 } }
   };
 
   return (
