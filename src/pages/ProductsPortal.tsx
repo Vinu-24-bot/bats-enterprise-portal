@@ -6,7 +6,10 @@ export default function ProductsPortal() {
   const navigate = useNavigate();
 
   const handleSelect = (product: string) => {
-    navigate(`/auth?product=${product}`);
+    // 🚀 BYPASS AUTH: Instantly set session and jump straight to the dashboard
+    sessionStorage.setItem("master_auth", "true");
+    sessionStorage.setItem("active_product", product);
+    navigate("/dashboard");
   };
 
   const containerVariants: Variants = {
@@ -25,10 +28,8 @@ export default function ProductsPortal() {
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-center p-6 overflow-hidden">
-      {/* Spinning Background Logo */}
       <div className="bg-watermark" />
       
-      {/* Background Ambient Glows */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
 
@@ -38,7 +39,6 @@ export default function ProductsPortal() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="text-center mb-16 relative z-10"
       >
-        {/* 🚀 CHANGED HEADING HERE */}
         <h1 className="text-5xl md:text-6xl font-black font-display tracking-tight mb-6 text-foreground drop-shadow-lg">
           BATS.ai <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Engine</span>
         </h1>
@@ -47,28 +47,24 @@ export default function ProductsPortal() {
         </p>
       </motion.div>
 
-      {/* 🚀 CHANGED GRID TO SINGLE CENTERED CARD */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         className="w-full max-w-md relative z-10" 
       >
-        {/* The ONLY Card: BATS Enterprise Suite */}
         <motion.div 
           variants={cardVariants}
           whileHover="hover"
           className="glass-panel p-8 rounded-3xl cursor-pointer group border-combo/30 hover:border-combo/70 hover:shadow-[0_0_50px_rgba(250,204,21,0.25)] transition-all duration-300 flex flex-col h-full bg-gradient-to-b from-card/90 to-card/50 relative overflow-hidden transform"
           onClick={() => handleSelect('combo')}
         >
-          {/* Top highlight glow */}
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-combo to-transparent opacity-70" />
           
           <motion.div variants={iconVariants} className="w-16 h-16 rounded-2xl bg-combo/15 flex items-center justify-center mb-6 group-hover:bg-combo/25 transition-colors border border-combo/20">
             <Layers className="w-8 h-8 text-combo" />
           </motion.div>
           
-          {/* 🚀 CHANGED CARD TITLE HERE */}
           <h2 className="text-2xl font-bold font-display text-foreground mb-3 group-hover:text-combo transition-colors">BATS Enterprise Suite</h2>
           <p className="text-muted-foreground mb-8 flex-1 leading-relaxed">
             The Ultimate Combo. Unrestricted access to both the Resume ATS Engine and the Video AI Interview platform.

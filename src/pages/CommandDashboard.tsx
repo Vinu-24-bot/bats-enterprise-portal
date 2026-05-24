@@ -8,30 +8,27 @@ export default function CommandDashboard() {
   const [product, setProduct] = useState("");
 
   useEffect(() => {
-    // 1. Check if they are actually logged in
     const isAuth = sessionStorage.getItem("master_auth") === "true";
     if (!isAuth) {
-      navigate("/auth");
+      navigate("/"); // 🚀 CHANGED: Redirects to the main portal instead of the old Auth page
       return;
     }
-    // 2. See what product they unlocked
     setProduct(sessionStorage.getItem("active_product") || "combo");
   }, [navigate]);
 
   const handleLogout = () => {
     sessionStorage.clear();
-    navigate("/");
+    navigate("/"); // 🚀 CHANGED: Redirects to main portal
   };
 
-  // 🌍 YOUR ACTUAL VERCEL DEPLOYMENT LINKS GO HERE!
-  const GENIUS_HUB_URL = "https://bats-original.vercel.app/"; 
+  // 🌍 YOUR ACTUAL VERCEL DEPLOYMENT LINKS
+  const GENIUS_HUB_URL = "https://bats-original.vercel.app"; 
   const FORGE_PRO_URL = "https://nexus-ai-platform-omega.vercel.app"; 
 
   return (
     <div className="min-h-screen relative p-6 md:p-12">
       <div className="bg-watermark" />
       
-      {/* Top Navbar Component */}
       <div className="max-w-6xl mx-auto flex justify-between items-center mb-12 relative z-10 glass-panel px-6 py-4 rounded-2xl">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
@@ -46,7 +43,7 @@ export default function CommandDashboard() {
           onClick={handleLogout}
           className="flex items-center text-sm font-semibold text-destructive hover:bg-destructive/10 px-4 py-2 rounded-lg transition-colors border border-destructive/20"
         >
-          <LogOut className="w-4 h-4 mr-2" /> End Session
+          <LogOut className="w-4 h-4 mr-2" /> Return to Portal
         </button>
       </div>
 
@@ -59,7 +56,6 @@ export default function CommandDashboard() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          {/* GENIUS HUB LAUNCHER (Shows if ATS or Combo) */}
           {(product === "geniushub" || product === "combo") && (
             <motion.div 
               whileHover={{ scale: 1.02 }}
@@ -89,7 +85,6 @@ export default function CommandDashboard() {
             </motion.div>
           )}
 
-          {/* FORGE PRO LAUNCHER (Shows if Video or Combo) */}
           {(product === "forgepro" || product === "combo") && (
             <motion.div 
               whileHover={{ scale: 1.02 }}
